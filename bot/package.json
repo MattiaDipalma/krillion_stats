@@ -1,0 +1,20 @@
+{
+  "name": "krillion-stats-bot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bot WhatsApp che raccoglie i risultati Krillion del gruppo e li pubblica su GitHub Pages",
+  "type": "module",
+  "engines": {
+    "node": ">=20.12"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "import": "node src/import-chat.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "baileys": "^7.0.0-rc14",
+    "pino": "^9.6.0",
+    "qrcode-terminal": "^0.12.0"
+  }
+}

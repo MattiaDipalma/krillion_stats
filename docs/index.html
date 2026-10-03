@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Krillion Daily</title>
+    <meta name="description" content="Le statistiche Krillion del gruppo WhatsApp Krillion Daily" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦐</text></svg>"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="top">
+      <div class="wrap top-inner">
+        <div>
+          <h1><span aria-hidden="true">🦐</span> Krillion Daily</h1>
+          <p class="sub" data-i18n="subtitle"></p>
+        </div>
+        <div class="top-meta">
+          <span id="updated" class="muted"></span>
+          <label class="lang">
+            <span class="sr-only">Lingua / Sprache / Language</span>
+            <select id="lang">
+              <option value="it">Italiano</option>
+              <option value="de">Deutsch</option>
+              <option value="en">English</option>
+            </select>
+          </label>
+        </div>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <p id="status" class="status" role="status"></p>
+
+      <div id="content" hidden>
+        <!-- Puzzle del giorno -->
+        <section class="card day" aria-labelledby="day-title">
+          <div class="day-head">
+            <button class="icon-btn" id="day-prev" type="button" data-i18n-label="prev">‹</button>
+            <div class="day-title-wrap">
+              <h2 id="day-title"></h2>
+              <p id="day-date" class="muted"></p>
+            </div>
+            <button class="icon-btn" id="day-next" type="button" data-i18n-label="next">›</button>
+          </div>
+          <ol id="day-list" class="day-list"></ol>
+          <p id="day-missing" class="muted small"></p>
+        </section>
+
+        <!-- Filtro periodo: vale per tutto quello che segue -->
+        <div class="filters" role="group" aria-labelledby="period-label">
+          <span id="period-label" class="muted" data-i18n="period"></span>
+          <div class="seg" id="period">
+            <button type="button" data-period="all" data-i18n="periodAll"></button>
+            <button type="button" data-period="30" data-i18n="period30"></button>
+            <button type="button" data-period="7" data-i18n="period7"></button>
+          </div>
+        </div>
+
+        <section class="tiles" id="tiles" data-i18n-label="summary"></section>
+
+        <section class="card" aria-labelledby="lb-title">
+          <h2 id="lb-title" data-i18n="leaderboard"></h2>
+          <div class="table-wrap">
+            <table class="lb" id="leaderboard"></table>
+          </div>
+          <p id="lb-note" class="muted small"></p>
+        </section>
+
+        <section class="card" aria-labelledby="trend-title">
+          <div class="card-head">
+            <h2 id="trend-title" data-i18n="trend"></h2>
+            <div class="seg small" id="trend-mode">
+              <button type="button" data-mode="score" data-i18n="modeScore"></button>
+              <button type="button" data-mode="avg" data-i18n="modeAvg"></button>
+            </div>
+          </div>
+          <div class="chips" id="trend-players" role="group" data-i18n-label="trendPlayers"></div>
+          <div class="chart" id="trend-chart"></div>
+        </section>
+
+        <section class="card" aria-labelledby="h2h-title">
+          <h2 id="h2h-title" data-i18n="h2h"></h2>
+          <p class="muted small" data-i18n="h2hHint"></p>
+          <div class="table-wrap">
+            <table class="h2h" id="h2h"></table>
+          </div>
+          <div class="h2h-legend small muted" aria-hidden="true">
+            <span data-i18n="h2hWorse"></span>
+            <span class="ramp"></span>
+            <span data-i18n="h2hBetter"></span>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <dialog id="player-dialog" aria-labelledby="pd-title">
+      <form method="dialog" class="pd-close">
+        <button class="icon-btn" type="submit" data-i18n-label="close">✕</button>
+      </form>
+      <h2 id="pd-title"></h2>
+      <div class="tiles small-tiles" id="pd-tiles"></div>
+      <div class="chips" id="pd-legend"></div>
+      <div class="chart" id="pd-chart"></div>
+      <h3 data-i18n="history"></h3>
+      <div class="table-wrap">
+        <table class="lb" id="pd-history"></table>
+      </div>
+    </dialog>
+
+    <footer class="wrap foot muted small">
+      <span data-i18n="footer"></span>
+      ·
+      <a href="https://github.com/MattiaDipalma/krillion_stats">GitHub</a>
+    </footer>
+
+    <div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>

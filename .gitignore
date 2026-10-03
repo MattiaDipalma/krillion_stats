@@ -1,0 +1,8 @@
+node_modules/
+*.tmp
+
+# dati privati del bot: sessione WhatsApp, rubrica, configurazione
+bot/.env
+bot/auth/
+bot/state/
+bot/aliases.json
