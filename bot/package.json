@@ -10,11 +10,15 @@
   "scripts": {
     "start": "node src/index.js",
     "import": "node src/import-chat.js",
-    "test": "node --test"
+    "test": "node --test",
+    "postinstall": "patch-package"
   },
   "dependencies": {
-    "baileys": "^7.0.0-rc14",
+    "baileys": "7.0.0-rc14",
     "pino": "^9.6.0",
     "qrcode-terminal": "^0.12.0"
+  },
+  "devDependencies": {
+    "patch-package": "^8.0.1"
   }
 }
