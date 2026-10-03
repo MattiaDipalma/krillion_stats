@@ -154,7 +154,9 @@ async function connect() {
     logger: baileysLogger,
     // "Desktop" + syncFullHistory: al primo collegamento WhatsApp invia anche
     // lo storico dei messaggi, così vengono recuperati i risultati passati.
-    browser: Browsers.macOS('Desktop'),
+    // Windows e non macOS: da fine giugno 2026 WhatsApp chiude con 428 i client
+    // "Mac OS Desktop" prima del QR (vedi patches/ per la correzione a Baileys).
+    browser: Browsers.windows('Desktop'),
     syncFullHistory: true,
     shouldSyncHistoryMessage: () => true,
     // non risultare "online": le notifiche continuano ad arrivare sul telefono
