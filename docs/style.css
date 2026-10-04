@@ -513,6 +513,14 @@ table {
   align-items: center;
   gap: 8px;
   text-align: left;
+  max-width: 100%;
+}
+
+.player-btn span:last-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .player-btn:hover span:last-child {
@@ -539,6 +547,95 @@ table {
 
 #lb-note:empty {
   display: none;
+}
+
+/* Classifica su schermi stretti: ogni giocatore su due righe (nome e media sopra,
+   il resto sotto, allineato alle intestazioni), così non serve scorrere di lato. */
+@media (max-width: 700px) {
+  #leaderboard,
+  #leaderboard thead,
+  #leaderboard tbody {
+    display: block;
+  }
+
+  #leaderboard tr {
+    display: grid;
+    grid-template-columns: 18px repeat(5, minmax(0, 1fr));
+    grid-template-areas:
+      'pos name name name avg avg'
+      'pos games best wins rank streak';
+    column-gap: 6px;
+    row-gap: 2px;
+    align-items: baseline;
+    padding: 8px 0;
+    border-top: 1px solid var(--grid);
+  }
+
+  #leaderboard thead tr {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  #leaderboard th,
+  #leaderboard td {
+    min-width: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  #leaderboard th {
+    font-size: 11px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  #leaderboard .pos {
+    grid-area: pos;
+    width: auto;
+    text-align: left;
+  }
+
+  #leaderboard .c-name {
+    grid-area: name;
+  }
+
+  #leaderboard .c-avg {
+    grid-area: avg;
+  }
+
+  #leaderboard .c-games {
+    grid-area: games;
+  }
+
+  #leaderboard .c-best {
+    grid-area: best;
+  }
+
+  #leaderboard .c-wins {
+    grid-area: wins;
+  }
+
+  #leaderboard .c-rank {
+    grid-area: rank;
+  }
+
+  #leaderboard .c-streak {
+    grid-area: streak;
+  }
+
+  #leaderboard td.c-avg {
+    font-size: 17px;
+    font-weight: 650;
+  }
+
+  #leaderboard td:not(.pos, .c-name, .c-avg) {
+    font-size: 13px;
+    color: var(--text-2);
+  }
+
+  #leaderboard tr.unqualified td {
+    color: var(--muted);
+  }
 }
 
 /* ---------- chips ---------- */
@@ -756,6 +853,47 @@ table {
   background: linear-gradient(90deg, var(--div-neg), var(--div-mid), var(--div-pos));
 }
 
+/* Testa a testa su schermi stretti: colonne strette e nomi delle colonne in verticale */
+@media (max-width: 700px) {
+  .h2h {
+    table-layout: fixed;
+  }
+
+  .h2h thead th {
+    max-width: none;
+    padding: 0 0 6px;
+    vertical-align: bottom;
+  }
+
+  .h2h thead th:first-child {
+    width: 64px;
+  }
+
+  .h2h thead th span {
+    display: inline-block;
+    max-height: 84px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  .h2h tbody th {
+    padding-right: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .h2h td div {
+    min-width: 0;
+    height: 32px;
+    font-size: 11px;
+    line-height: 1.1;
+    text-align: center;
+  }
+}
+
 /* ---------- scheda giocatore ---------- */
 
 dialog {
@@ -793,8 +931,32 @@ dialog::backdrop {
     font-size: 21px;
   }
 
+  .wrap {
+    padding: 0 12px;
+  }
+
   .card {
-    padding: 14px;
+    padding: 14px 12px;
+  }
+
+  dialog {
+    width: calc(100vw - 16px);
+    max-width: none;
+    max-height: calc(100dvh - 16px);
+    padding: 14px 12px;
+  }
+
+  #pd-history th,
+  #pd-history td {
+    padding: 6px 4px;
+  }
+
+  /* sui telefoni più stretti la griglia va a capo invece di uscire dallo schermo */
+  #pd-history .grid-cell {
+    font-size: 12px;
+    letter-spacing: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .day-title-wrap h2 {

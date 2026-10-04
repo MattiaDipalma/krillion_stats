@@ -145,18 +145,24 @@ journalctl -u krillion-bot -f
 ## Nomi dei giocatori
 
 Il bot usa il nome con cui hai salvato la persona in rubrica; se non c'è, il nome che la persona ha
-scelto sul suo profilo WhatsApp. Per sistemare un nome (o unire due nomi della stessa persona) crea
-`bot/aliases.json` partendo da [`bot/aliases.example.json`](bot/aliases.example.json):
+scelto sul suo profilo WhatsApp (o un numero mascherato come `+41∙∙∙∙∙∙∙46`).
+
+Per decidere come compare un nome sul sito modifica [`docs/data/names.json`](docs/data/names.json)
+direttamente su GitHub: a sinistra il nome come compare in `stats.json`, a destra il nome da mostrare.
+Vale subito, anche per i risultati già salvati, senza toccare il bot. Due nomi che puntano allo stesso
+nome diventano la stessa persona.
 
 ```json
 {
   "Nils Geigy": "Nils",
-  "+41 79 123 45 67": "Elia"
+  "+41∙∙∙∙∙∙∙46": "Flu"
 }
 ```
 
-Gli alias valgono anche per i risultati già salvati: vengono applicati alla scrittura successiva.
-`aliases.json` non viene pubblicato (è nel `.gitignore`), quindi puoi metterci anche numeri di telefono.
+`names.json` è pubblico: non metterci numeri di telefono completi. Per quelli crea invece
+`bot/aliases.json` partendo da [`bot/aliases.example.json`](bot/aliases.example.json): il bot salva
+direttamente il nome giusto (dopo un riavvio) e lo applica anche ai risultati già salvati alla scrittura
+successiva. `aliases.json` non viene pubblicato (è nel `.gitignore`).
 
 ## Recuperare lo storico
 
@@ -198,6 +204,7 @@ bot/
   test/                  test (npm test)
 docs/                    il sito (GitHub Pages)
   data/stats.json        i dati
+  data/names.json        i nomi da mostrare sul sito
 ```
 
 Per i test: `cd bot && npm test`.

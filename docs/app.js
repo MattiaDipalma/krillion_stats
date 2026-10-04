@@ -293,10 +293,36 @@ function indexPuzzles(results) {
   return map;
 }
 
-function prepare(data) {
-  const results = (data.results ?? []).filter(
-    (r) => r && Number.isFinite(r.puzzle) && Number.isFinite(r.score) && typeof r.player === 'string',
-  );
+// Nomi da mostrare (data/names.json): { "nome come arriva da WhatsApp": "nome sul sito" }.
+// Confronto senza maiuscole/spazi; i puntini dei numeri mascherati (+41∙∙∙46) valgono tutti uguale.
+const nameKey = (s) =>
+  String(s ?? '')
+    .replace(/[\u200b-\u200f\u202a-\u202e\u2060\ufeff]/g, '')
+    .replace(/[∙•·⋅]/g, '∙')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+
+function nameMap(names) {
+  const map = new Map();
+  for (const [from, to] of Object.entries(names ?? {})) {
+    if (!from.startsWith('_') && typeof to === 'string' && to.trim()) map.set(nameKey(from), to.trim());
+  }
+  return map;
+}
+
+function prepare(data, names = new Map()) {
+  // Due nomi di WhatsApp possono diventare la stessa persona: un risultato per puzzle, vale il primo.
+  const byKey = new Map();
+  for (const r of data.results ?? []) {
+    if (!r || !Number.isFinite(r.puzzle) || !Number.isFinite(r.score) || typeof r.player !== 'string')
+      continue;
+    const player = names.get(nameKey(r.player)) ?? r.player;
+    const key = `${r.puzzle}\u0000${player.toLowerCase()}`;
+    const prev = byKey.get(key);
+    if (!prev || (r.ts ?? Infinity) < (prev.ts ?? Infinity)) byKey.set(key, { ...r, player });
+  }
+  const results = [...byKey.values()];
   const puzzles = indexPuzzles(results);
   const puzzleList = [...puzzles.keys()].sort((a, b) => a - b);
   const players = [...new Set(results.map((r) => r.player))].sort((a, b) => a.localeCompare(b, locale()));
@@ -517,14 +543,15 @@ function renderTiles(model, range) {
   );
 }
 
+// cls: classe di colonna (c-*), usata anche per la classifica su due righe del telefono
 const COLUMNS = [
-  { key: 'name', label: 'colPlayer', cls: 'left', defaultDir: 'asc' },
-  { key: 'games', label: 'colGames' },
-  { key: 'avg', label: 'colAvg' },
-  { key: 'best', label: 'colBest' },
-  { key: 'wins', label: 'colWins' },
-  { key: 'avgRank', label: 'colAvgRank', defaultDir: 'asc' },
-  { key: 'streak', label: 'colStreak' },
+  { key: 'name', label: 'colPlayer', cls: 'left c-name', defaultDir: 'asc' },
+  { key: 'games', label: 'colGames', cls: 'c-games' },
+  { key: 'avg', label: 'colAvg', cls: 'c-avg' },
+  { key: 'best', label: 'colBest', cls: 'c-best' },
+  { key: 'wins', label: 'colWins', cls: 'c-wins' },
+  { key: 'avgRank', label: 'colAvgRank', cls: 'c-rank', defaultDir: 'asc' },
+  { key: 'streak', label: 'colStreak', cls: 'c-streak' },
 ];
 
 function renderLeaderboard(model, range) {
@@ -566,17 +593,20 @@ function renderLeaderboard(model, range) {
   const qualifies = state.sort.key === 'avg' || state.sort.key === 'avgRank';
   const rows = stats.map((s, i) => {
     const unq = qualifies && s.games < threshold;
+    const cells = {
+      name: playerButton(model, s.name),
+      games: fmt(s.games),
+      avg: fmt(s.avg, 1),
+      best: fmt(s.best.score),
+      wins: fmt(s.wins),
+      avgRank: fmt(s.avgRank, 2),
+      streak: s.streak ? `${fmt(s.streak)} 🔥` : '0',
+    };
     return el(
       'tr',
       { class: unq ? 'unqualified' : null },
       el('td', { class: 'pos' }, unq ? '–' : i + 1),
-      el('td', { class: 'left' }, playerButton(model, s.name)),
-      el('td', {}, fmt(s.games)),
-      el('td', {}, fmt(s.avg, 1)),
-      el('td', {}, fmt(s.best.score)),
-      el('td', {}, fmt(s.wins)),
-      el('td', {}, fmt(s.avgRank, 2)),
-      el('td', {}, s.streak ? `${fmt(s.streak)} 🔥` : '0'),
+      COLUMNS.map((c) => el('td', { class: c.cls }, cells[c.key])),
     );
   });
   table.replaceChildren(el('thead', {}, head), el('tbody', {}, rows));
@@ -911,7 +941,7 @@ function renderH2H(model, range) {
     'tr',
     {},
     el('th', {}),
-    order.map((name) => el('th', { scope: 'col', title: name }, name)),
+    order.map((name) => el('th', { scope: 'col', title: name }, el('span', {}, name))),
   );
   const body = order.map((rowName, i) =>
     el(
@@ -947,7 +977,8 @@ function renderH2H(model, range) {
               onfocus: show,
               onblur: hideTooltip,
             },
-            `${wins}–${losses}`,
+            // su schermi stretti il numero può andare a capo dopo il trattino
+            el('span', {}, `${wins}–`, el('wbr'), losses),
           ),
         );
       }),
@@ -1148,24 +1179,36 @@ function demoData() {
   return { version: 1, updatedAt: new Date().toISOString(), results };
 }
 
+async function loadNames() {
+  try {
+    const res = await fetch(`data/names.json?t=${Date.now()}`, { cache: 'no-store' });
+    return res.ok ? nameMap(await res.json()) : new Map();
+  } catch {
+    return new Map(); // senza names.json si usano i nomi di WhatsApp
+  }
+}
+
 async function main() {
   applyStaticTexts();
   bindControls();
   setStatus('loading');
   let data;
+  let names = new Map();
   try {
     if (state.demo) {
       data = demoData();
     } else {
+      const namesLoaded = loadNames();
       const res = await fetch(`data/stats.json?t=${Date.now()}`, { cache: 'no-store' });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       data = await res.json();
+      names = await namesLoaded;
     }
   } catch (err) {
     setStatus('error', { msg: err.message });
     return;
   }
-  model = prepare(data);
+  model = prepare(data, names);
   if (!model.results.length) {
     setStatus('empty');
     return;
