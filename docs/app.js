@@ -56,6 +56,7 @@ const I18N = {
     colRank: 'Pos.',
     colGrid: 'Risultato',
     tileWorst: 'Peggiore',
+    tilePodiums: 'Podi',
     tileStreakBest: 'Serie migliore',
     footer: 'Dati raccolti dal bot WhatsApp del gruppo Krillion Daily',
   },
@@ -112,6 +113,7 @@ const I18N = {
     colRank: 'Rang',
     colGrid: 'Resultat',
     tileWorst: 'Schlechtestes',
+    tilePodiums: 'Podestplätze',
     tileStreakBest: 'Beste Serie',
     footer: 'Daten gesammelt vom WhatsApp-Bot der Gruppe Krillion Daily',
   },
@@ -167,14 +169,17 @@ const I18N = {
     colRank: 'Rank',
     colGrid: 'Result',
     tileWorst: 'Worst',
+    tilePodiums: 'Podiums',
     tileStreakBest: 'Best streak',
     footer: 'Data collected by the Krillion Daily WhatsApp bot',
   },
 };
 
 const LOCALES = { it: 'it-CH', de: 'de-CH', en: 'en-GB' };
-const SLOTS = 8;
+const SLOTS = 12;
 const MEDALS = ['🥇', '🥈', '🥉'];
+// partite minime nel periodo per stare in classifica (media e posizione media) insieme agli altri
+const MIN_GAMES = 3;
 
 // ---------------------------------------------------------------------------
 // Preferenze (solo per comodità: se lo storage non è disponibile si va avanti)
@@ -326,7 +331,7 @@ function prepare(data, names = new Map()) {
   const puzzles = indexPuzzles(results);
   const puzzleList = [...puzzles.keys()].sort((a, b) => a - b);
   const players = [...new Set(results.map((r) => r.player))].sort((a, b) => a.localeCompare(b, locale()));
-  // colore per giocatore, fisso (ordine alfabetico); oltre l'ottavo, stesso colore ma linea tratteggiata
+  // colore per giocatore, fisso (ordine alfabetico); oltre il dodicesimo, stesso colore ma linea tratteggiata
   const colors = new Map(
     players.map((p, i) => [p, { color: `var(--s${(i % SLOTS) + 1})`, dashed: i >= SLOTS }]),
   );
@@ -364,6 +369,7 @@ function playerStats(model, range) {
     let total = 0;
     let wins = 0;
     let rankSum = 0;
+    const podium = [0, 0, 0]; // volte primo, secondo, terzo (come le medaglie del puzzle del giorno)
     let best = list[0];
     let worst = list[0];
     for (const r of list) {
@@ -372,6 +378,7 @@ function playerStats(model, range) {
       const rank = p.rank.get(name);
       rankSum += rank;
       if (rank === 1 && p.results.length > 1) wins++;
+      if (rank <= 3 && p.results.length > 1) podium[rank - 1]++;
       if (r.score > best.score) best = r;
       if (r.score < worst.score) worst = r;
     }
@@ -383,6 +390,8 @@ function playerStats(model, range) {
       best,
       worst,
       wins,
+      podium,
+      podiums: podium[0] + podium[1] + podium[2],
       avgRank: rankSum / list.length,
       streak: s.current,
       bestStreak: s.best,
@@ -392,8 +401,9 @@ function playerStats(model, range) {
 }
 
 function minGames(model, range) {
+  // se nel periodo ci sono meno puzzle di MIN_GAMES, basta averli giocati tutti
   const n = model.puzzleList.filter((p) => p >= range.from && p <= range.to).length;
-  return Math.max(1, Math.ceil(n * 0.25));
+  return Math.max(1, Math.min(MIN_GAMES, n));
 }
 
 function sortStats(stats, sort, threshold) {
@@ -1002,6 +1012,7 @@ function openPlayer(model, name) {
     tile(t('colBest'), fmt(s.best.score), `#${s.best.puzzle}`),
     tile(t('tileWorst'), fmt(s.worst.score), `#${s.worst.puzzle}`),
     tile(t('colWins'), fmt(s.wins)),
+    tile(t('tilePodiums'), fmt(s.podiums), MEDALS.map((m, i) => `${m} ${fmt(s.podium[i])}`).join(' · ')),
     tile(
       t('colStreak'),
       `${fmt(s.streak)}${s.streak ? ' 🔥' : ''}`,

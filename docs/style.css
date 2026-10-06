@@ -23,6 +23,10 @@
   --s6: #008300;
   --s7: #4a3aa7;
   --s8: #e34948;
+  --s9: #7c3f00;
+  --s10: #192dfd;
+  --s11: #a24b98;
+  --s12: #770154;
   --ref: #898781;
   --radius: 14px;
   --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -54,6 +58,10 @@
     --s6: #008300;
     --s7: #9085e9;
     --s8: #e66767;
+    --s9: #fcb76f;
+    --s10: #8ec2fd;
+    --s11: #aa23b7;
+    --s12: #fc9ac9;
   }
 }
 
@@ -82,6 +90,10 @@
   --s6: #008300;
   --s7: #9085e9;
   --s8: #e66767;
+  --s9: #fcb76f;
+  --s10: #8ec2fd;
+  --s11: #aa23b7;
+  --s12: #fc9ac9;
 }
 
 * {
@@ -422,7 +434,7 @@ select {
 }
 
 .small-tiles {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .small-tiles .tile {
@@ -437,6 +449,11 @@ select {
 @media (max-width: 720px) {
   .tiles {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* su due colonne, un riquadro rimasto da solo occupa tutta la riga */
+  .small-tiles .tile:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
   }
 }
 
