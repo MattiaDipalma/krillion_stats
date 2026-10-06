@@ -1,11 +1,13 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-06T06:19:42.074Z",
+  "updatedAt": "2026-10-06T07:54:48.917Z",
   "results": [
     {"puzzle":83,"player":"elico","score":210,"date":"2026-10-06","ts":1791263751,"grid":"🐟🫧🦑🫧🦑🐟🫧","msgId":"3A894017C6A261FAA280"},
     {"puzzle":83,"player":"Nic","score":250,"date":"2026-10-06","ts":1791263953,"grid":"🫧🦑🦑🐟🐟🐟🐟","msgId":"3A4B4439DAFD1920C44F"},
     {"puzzle":83,"player":"Nils Geigy","score":305,"date":"2026-10-06","ts":1791264248,"grid":"🏮⬛🐟🐟🌟🐟🐟","msgId":"3AA1F1A3D6BC34D4AB1D"},
     {"puzzle":83,"player":"+41∙∙∙∙∙∙∙46","score":295,"date":"2026-10-06","ts":1791266679,"grid":"🐟🐟🏮🐟🦑⬛🦑","msgId":"3A8B2B8A0F067D2F2459"},
+    {"puzzle":83,"player":"+49∙∙∙∙∙∙∙∙73","score":320,"date":"2026-10-06","ts":1791267114,"grid":"🏮⬛🦑🦑🐟⬛🏮","msgId":"4A79FB704B0FD0AFC1A3"},
+    {"puzzle":83,"player":"Mattia","score":260,"date":"2026-10-06","ts":1791271568,"grid":"🐟🫧🏮🫧🏮🐟🫧","msgId":"3A016924DBA4FE1CB6E9"},
     {"puzzle":82,"player":"Nic","score":225,"date":"2026-10-05","ts":1791179825,"grid":"🏮🫧🦑🫧🐟🐟⬛🫩🫩","msgId":"3AAFB167F48279110CBE"},
     {"puzzle":82,"player":"elico","score":220,"date":"2026-10-05","ts":1791180106,"grid":"🏮🫧🫧🏮🐟⬛⬛","msgId":"3A776ED5336CA7D9B468"},
     {"puzzle":82,"player":"Nils Geigy","score":280,"date":"2026-10-05","ts":1791180278,"grid":"🏮🫧⬛🦑🐟🏮🫧","msgId":"3A9F294773860F2CAC92"},
