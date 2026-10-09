@@ -527,7 +527,8 @@ function tile(label, value, hint) {
     { class: 'tile' },
     el('div', { class: 'label' }, label),
     el('div', { class: 'value' }, value),
-    hint ? el('div', { class: 'hint' }, hint) : null,
+    // hint può essere un array: una riga per elemento
+    [hint].flat().filter(Boolean).map((h) => el('div', { class: 'hint' }, h)),
   );
 }
 
@@ -535,7 +536,9 @@ function renderTiles(model, range) {
   const results = model.results.filter((r) => r.puzzle >= range.from && r.puzzle <= range.to);
   const puzzles = model.puzzleList.filter((p) => p >= range.from && p <= range.to);
   const players = new Set(results.map((r) => r.player));
-  const record = results.reduce((best, r) => (!best || r.score > best.score ? r : best), null);
+  const best = results.reduce((m, r) => Math.max(m, r.score), -Infinity);
+  // a parimerito vengono mostrati tutti i detentori del record
+  const records = results.filter((r) => r.score === best).sort((a, b) => a.puzzle - b.puzzle);
   const avg = results.reduce((s, r) => s + r.score, 0) / (results.length || 1);
   $('#tiles').replaceChildren(
     tile(
@@ -546,8 +549,8 @@ function renderTiles(model, range) {
     tile(t('tilePlayers'), fmt(players.size), t('tilePlayersHint', { n: fmt(results.length) })),
     tile(
       t('tileRecord'),
-      record ? fmt(record.score) : '–',
-      record ? `${record.player} · #${record.puzzle}` : '',
+      records.length ? fmt(best) : '–',
+      records.map((r) => `${r.player} · #${r.puzzle}`),
     ),
     tile(t('tileAvg'), fmt(avg, 1)),
   );
