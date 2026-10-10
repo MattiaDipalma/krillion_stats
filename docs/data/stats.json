@@ -1,10 +1,11 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-10T09:36:31.441Z",
+  "updatedAt": "2026-10-10T09:41:03.673Z",
   "results": [
     {"puzzle":87,"player":"elico","score":155,"date":"2026-10-10","ts":1791624700,"grid":"🫧⬛🐟🐟🏮⬛⬛","msgId":"3AFF761495860B5C82BC"},
     {"puzzle":87,"player":"Nic","score":120,"date":"2026-10-10","ts":1791624881,"grid":"🐟🫧🫧⬛🦑🫧⬛","msgId":"3A7935A2D6EAFFEC9A07"},
     {"puzzle":87,"player":"+41∙∙∙∙∙∙∙90","score":330,"date":"2026-10-10","ts":1791624930,"grid":"🐟🏮🫧🦑🏮🐟🐟","msgId":"3AA0AB77FD287EA00160"},
+    {"puzzle":87,"player":"Nils Geigy","score":295,"date":"2026-10-10","ts":1791625202,"grid":"⬛🫧🐟🏮🏮⬛🏮","msgId":"3A3790F4788D4ED93828"},
     {"puzzle":86,"player":"+41∙∙∙∙∙∙∙46","score":395,"date":"2026-10-09","ts":1791523728,"grid":"🫧🫧🏮🦑🏮🏮🦑","msgId":"3A47047ED3089E0F23B4"},
     {"puzzle":86,"player":"Nils Geigy","score":435,"date":"2026-10-09","ts":1791525771,"grid":"🏮⬛🏮🦑🏮🦑🦑","msgId":"3A5ECCC85E4D00D050AC"},
     {"puzzle":86,"player":"Nic","score":310,"date":"2026-10-09","ts":1791525847,"grid":"🏮🐟🏮🦑🐟🫧🫧","msgId":"3AD3C430F619B9D3F11E"},
