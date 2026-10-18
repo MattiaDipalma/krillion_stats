@@ -35,7 +35,7 @@ const I18N = {
     colWins: 'Vittorie',
     colAvgRank: 'Pos. media',
     colStreak: 'Serie',
-    qualifyNote: 'Chi ha giocato meno di {n} partite nel periodo è in fondo alla classifica della media.',
+    qualifyNote: 'Chi non ha una serie attuale di almeno {n} partite di fila è in fondo alla classifica della media.',
     trend: 'Andamento',
     trendPlayers: 'Giocatori nel grafico',
     modeScore: 'Punteggio',
@@ -92,7 +92,7 @@ const I18N = {
     colWins: 'Siege',
     colAvgRank: 'Ø Rang',
     colStreak: 'Serie',
-    qualifyNote: 'Wer im Zeitraum weniger als {n} Spiele hat, steht in der Schnitt-Rangliste unten.',
+    qualifyNote: 'Wer keine aktuelle Serie von mindestens {n} Spielen am Stück hat, steht in der Schnitt-Rangliste unten.',
     trend: 'Verlauf',
     trendPlayers: 'Spieler im Diagramm',
     modeScore: 'Punkte',
@@ -149,7 +149,7 @@ const I18N = {
     colWins: 'Wins',
     colAvgRank: 'Avg. rank',
     colStreak: 'Streak',
-    qualifyNote: 'Players with fewer than {n} games in the period sit at the bottom of the average ranking.',
+    qualifyNote: 'Players without a current streak of at least {n} games in a row sit at the bottom of the average ranking.',
     trend: 'Trend',
     trendPlayers: 'Players in the chart',
     modeScore: 'Score',
@@ -418,6 +418,7 @@ function playerStats(model, range) {
 }
 
 function minGames(model, range) {
+  // serve una serie attuale di MIN_GAMES partite di fila;
   // se nel periodo ci sono meno puzzle di MIN_GAMES, basta averli giocati tutti
   const n = model.puzzleList.filter((p) => p >= range.from && p <= range.to).length;
   return Math.max(1, Math.min(MIN_GAMES, n));
@@ -429,8 +430,8 @@ function sortStats(stats, sort, threshold) {
   const qualifies = sort.key === 'avg' || sort.key === 'avgRank';
   return [...stats].sort((a, b) => {
     if (qualifies) {
-      const qa = a.games >= threshold;
-      const qb = b.games >= threshold;
+      const qa = a.streak >= threshold;
+      const qb = b.streak >= threshold;
       if (qa !== qb) return qa ? -1 : 1;
     }
     const va = value(a);
@@ -622,7 +623,7 @@ function renderLeaderboard(model, range) {
 
   const qualifies = state.sort.key === 'avg' || state.sort.key === 'avgRank';
   const rows = stats.map((s, i) => {
-    const unq = qualifies && s.games < threshold;
+    const unq = qualifies && s.streak < threshold;
     const cells = {
       name: playerButton(model, s.name),
       games: fmt(s.games),
@@ -641,7 +642,7 @@ function renderLeaderboard(model, range) {
   });
   table.replaceChildren(el('thead', {}, head), el('tbody', {}, rows));
 
-  const someUnqualified = qualifies && stats.some((s) => s.games < threshold);
+  const someUnqualified = qualifies && stats.some((s) => s.streak < threshold);
   $('#lb-note').textContent = someUnqualified ? t('qualifyNote', { n: threshold }) : '';
 }
 
