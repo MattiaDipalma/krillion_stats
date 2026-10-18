@@ -176,7 +176,7 @@ const I18N = {
 };
 
 const LOCALES = { it: 'it-CH', de: 'de-CH', en: 'en-GB' };
-const SLOTS = 12;
+const SLOTS = 20;
 const MEDALS = ['🥇', '🥈', '🥉'];
 // partite minime nel periodo per stare in classifica (media e posizione media) insieme agli altri
 const MIN_GAMES = 3;
@@ -327,11 +327,28 @@ function prepare(data, names = new Map()) {
     const prev = byKey.get(key);
     if (!prev || (r.ts ?? Infinity) < (prev.ts ?? Infinity)) byKey.set(key, { ...r, player });
   }
-  const results = [...byKey.values()];
+  // Stesso nome con maiuscole diverse (malena / Malena) = stessa persona.
+  // Si mostra la versione con l'iniziale maiuscola, altrimenti la più usata.
+  const variants = new Map();
+  for (const r of byKey.values()) {
+    const k = r.player.toLowerCase();
+    if (!variants.has(k)) variants.set(k, new Map());
+    const v = variants.get(k);
+    v.set(r.player, (v.get(r.player) ?? 0) + 1);
+  }
+  const canonical = new Map();
+  for (const [k, v] of variants) {
+    const capital = (n) => n[0] !== n[0].toLowerCase();
+    const [best] = [...v.entries()].sort(
+      ([a, na], [b, nb]) => Number(capital(b)) - Number(capital(a)) || nb - na || a.localeCompare(b),
+    )[0];
+    canonical.set(k, best);
+  }
+  const results = [...byKey.values()].map((r) => ({ ...r, player: canonical.get(r.player.toLowerCase()) }));
   const puzzles = indexPuzzles(results);
   const puzzleList = [...puzzles.keys()].sort((a, b) => a - b);
   const players = [...new Set(results.map((r) => r.player))].sort((a, b) => a.localeCompare(b, locale()));
-  // colore per giocatore, fisso (ordine alfabetico); oltre il dodicesimo, stesso colore ma linea tratteggiata
+  // colore per giocatore, fisso (ordine alfabetico); oltre il ventesimo, stesso colore ma linea tratteggiata
   const colors = new Map(
     players.map((p, i) => [p, { color: `var(--s${(i % SLOTS) + 1})`, dashed: i >= SLOTS }]),
   );
