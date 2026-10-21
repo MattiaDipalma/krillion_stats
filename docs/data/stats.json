@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-21T08:56:56.117Z",
+  "updatedAt": "2026-10-21T09:39:09.454Z",
   "results": [
     {"puzzle":98,"player":"elico","score":290,"date":"2026-10-21","ts":1792560209,"grid":"🦑🦑⬛🐟🐟🌟🫧","msgId":"3A94FE6C78051A37AFA8"},
     {"puzzle":98,"player":"Jonas","score":315,"date":"2026-10-21","ts":1792560558,"grid":"🦑🏮🫧⬛🦑🌟⬛","msgId":"4A08FDC1C032FE82EDBB"},
@@ -12,6 +12,7 @@
     {"puzzle":98,"player":"flo","score":245,"date":"2026-10-21","ts":1792570388,"grid":"🐟⬛🐟🦑🐟🏮🫧","msgId":"3AA2FC2222BE3CC0CFF9"},
     {"puzzle":98,"player":"Max","score":220,"date":"2026-10-21","ts":1792570457,"grid":"⬛🦑🐟⬛🐟🌟⬛","msgId":"4AFA18B9A7E19CD98495"},
     {"puzzle":98,"player":"+41∙∙∙∙∙∙∙46","score":280,"date":"2026-10-21","ts":1792572211,"grid":"🐟🐟🐟🐟🐟🌟🐟","msgId":"3A6F21C4B039E7E8D3DC"},
+    {"puzzle":98,"player":"+41∙∙∙∙∙∙∙90","score":365,"date":"2026-10-21","ts":1792575034,"grid":"⬛🐟🐟🦑🏮🌟🦑","msgId":"3A4B83C62CF2A061722D"},
     {"puzzle":97,"player":"Kubo","score":245,"date":"2026-10-20","ts":1792474225,"grid":"🦑⬛⬛🫧🐟🏮🦑","msgId":"4AC3723FE5DE58D761A4"},
     {"puzzle":97,"player":"elico","score":185,"date":"2026-10-20","ts":1792474476,"grid":"🐟🫧🫧🐟🫧🏮🫧","msgId":"3AC41233DFDCB4D9AAE9"},
     {"puzzle":97,"player":"rafael","score":295,"date":"2026-10-20","ts":1792475753,"grid":"🫧🦑🦑🦑🫧🏮🫧","msgId":"3AD14AC60A3C3E911FF9"},
