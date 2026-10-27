@@ -1,9 +1,15 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-27T06:40:02.069Z",
+  "updatedAt": "2026-10-27T08:13:03.132Z",
   "results": [
     {"puzzle":104,"player":"Dominic","score":285,"date":"2026-10-27","ts":1793079617,"grid":"🏮🫧🦑🫧🦑⬛🦑","msgId":"3A8EF924A1D3A735110F"},
     {"puzzle":104,"player":"elico","score":165,"date":"2026-10-27","ts":1793082015,"grid":"🏮🫧⬛⬛🫧🦑⬛","msgId":"3A0D25A55B2CBC1E466D"},
+    {"puzzle":104,"player":"Kubo","score":130,"date":"2026-10-27","ts":1793083221,"grid":"🫧🐟⬛⬛🐟🐟🐟","msgId":"4A608905150F5C68FDC1"},
+    {"puzzle":104,"player":"Malena","score":230,"date":"2026-10-27","ts":1793083468,"grid":"🏮⬛⬛🦑🏮⬛⬛","msgId":"3A9B38DA0B52F3F78C71"},
+    {"puzzle":104,"player":"rafael","score":150,"date":"2026-10-27","ts":1793083581,"grid":"⬛⬛🦑🐟🐟🐟⬛","msgId":"3ABBC2BB54BA7BCEAC2B"},
+    {"puzzle":104,"player":"+41∙∙∙∙∙∙∙90","score":435,"date":"2026-10-27","ts":1793085236,"grid":"🏮🦑🏮🐟🦑🏮🐟","msgId":"3B3570AD2F89D67AFDA1"},
+    {"puzzle":104,"player":"Pierin","score":145,"date":"2026-10-27","ts":1793085760,"grid":"🫧🫧⬛⬛🫧🐟🏮","msgId":"3A32C7FA387737902F88"},
+    {"puzzle":104,"player":"Jonas","score":150,"date":"2026-10-27","ts":1793086908,"grid":"🐟🦑⬛⬛🐟⬛🐟","msgId":"4AB0E797A74C8F0D5771"},
     {"puzzle":103,"player":"Nic","score":190,"date":"2026-10-26","ts":1792997866,"grid":"🦑🐟🐟🐟🐟⬛🫧","msgId":"3A8660DD49AE41FC36DE"},
     {"puzzle":103,"player":"Kubo","score":330,"date":"2026-10-26","ts":1792999479,"grid":"🦑🦑🦑🐟🐟🐟🦑","msgId":"4A69700353B89B97F189"},
     {"puzzle":103,"player":"elico","score":100,"date":"2026-10-26","ts":1793000406,"grid":"⬛🐟⬛🫧🐟⬛🐟","msgId":"3AD658859DE1279E61A6"},
