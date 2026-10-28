@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-28T08:55:38.333Z",
+  "updatedAt": "2026-10-28T08:59:45.712Z",
   "results": [
     {"puzzle":105,"player":"Dominic","score":230,"date":"2026-10-28","ts":1793165671,"grid":"🐟🦑🦑🐟🐟🫧🫧","msgId":"3A08E70478F15A431798"},
     {"puzzle":105,"player":"elico","score":200,"date":"2026-10-28","ts":1793168838,"grid":"🐟🫧🐟🦑🐟🫧🐟","msgId":"3A71D2EC99063C4ECF80"},
@@ -11,6 +11,7 @@
     {"puzzle":105,"player":"Jonas","score":160,"date":"2026-10-28","ts":1793174034,"grid":"⬛🐟🦑⬛⬛🫧🦑","msgId":"4A851B9C3ADA39735BA3"},
     {"puzzle":105,"player":"Max","score":345,"date":"2026-10-28","ts":1793176323,"grid":"🏮🦑🦑🦑🫧🫧🦑","msgId":"4AD0A7B7394A5839F20F"},
     {"puzzle":105,"player":"flo","score":260,"date":"2026-10-28","ts":1793177590,"grid":"🐟🦑🫧🦑🐟🫧🦑","msgId":"3EB0BB6EA7BE1405B268CC"},
+    {"puzzle":105,"player":"Mattia","score":170,"date":"2026-10-28","ts":1793177924,"grid":"🐟🫧🐟🐟🐟🫧🐟","msgId":"3B50E6E689B8EA5A5D6B"},
     {"puzzle":104,"player":"Dominic","score":285,"date":"2026-10-27","ts":1793079617,"grid":"🏮🫧🦑🫧🦑⬛🦑","msgId":"3A8EF924A1D3A735110F"},
     {"puzzle":104,"player":"elico","score":165,"date":"2026-10-27","ts":1793082015,"grid":"🏮🫧⬛⬛🫧🦑⬛","msgId":"3A0D25A55B2CBC1E466D"},
     {"puzzle":104,"player":"Kubo","score":130,"date":"2026-10-27","ts":1793083221,"grid":"🫧🐟⬛⬛🐟🐟🐟","msgId":"4A608905150F5C68FDC1"},
