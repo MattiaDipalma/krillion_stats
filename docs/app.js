@@ -59,6 +59,9 @@ const I18N = {
     tilePodiums: 'Podi',
     tileStreakBest: 'Serie migliore',
     footer: 'Dati raccolti dal bot WhatsApp del gruppo Krillion Daily',
+    download: 'Scarica i dati (CSV)',
+    colParticipants: 'Partecipanti',
+    colSent: 'Inviato il',
   },
   de: {
     subtitle: 'Die Statistiken der Gruppe',
@@ -116,6 +119,9 @@ const I18N = {
     tilePodiums: 'Podestplätze',
     tileStreakBest: 'Beste Serie',
     footer: 'Daten gesammelt vom WhatsApp-Bot der Gruppe Krillion Daily',
+    download: 'Daten herunterladen (CSV)',
+    colParticipants: 'Teilnehmer',
+    colSent: 'Gesendet am',
   },
   en: {
     subtitle: 'The group stats',
@@ -172,6 +178,9 @@ const I18N = {
     tilePodiums: 'Podiums',
     tileStreakBest: 'Best streak',
     footer: 'Data collected by the Krillion Daily WhatsApp bot',
+    download: 'Download the data (CSV)',
+    colParticipants: 'Players',
+    colSent: 'Sent at',
   },
 };
 
@@ -1090,6 +1099,49 @@ function openPlayer(model, name) {
 }
 
 // ---------------------------------------------------------------------------
+// Download dei dati (CSV, tutti i risultati, con i nomi mostrati sul sito)
+
+function downloadCsv(model) {
+  const cell = (v) => {
+    const text = String(v ?? '').replace(/\s*\n\s*/g, ' ');
+    return /[",;]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+  };
+  const sent = new Intl.DateTimeFormat('sv-SE', {
+    timeZone: 'Europe/Zurich',
+    dateStyle: 'short',
+    timeStyle: 'short',
+  });
+  const rows = [
+    ['colPuzzle', 'colDate', 'colPlayer', 'colScore', 'colRank', 'colParticipants', 'colGrid', 'colSent'].map(
+      (k) => t(k),
+    ),
+  ];
+  for (const n of model.puzzleList) {
+    const p = model.puzzles.get(n);
+    for (const r of [...p.results].sort((a, b) => p.rank.get(a.player) - p.rank.get(b.player))) {
+      rows.push([
+        n,
+        p.date ?? '',
+        r.player,
+        r.score,
+        p.rank.get(r.player),
+        p.results.length,
+        r.grid ?? '',
+        Number.isFinite(r.ts) ? sent.format(new Date(r.ts * 1000)) : '',
+      ]);
+    }
+  }
+  // BOM: Excel legge così le emoji e gli accenti
+  const csv = '\ufeff' + rows.map((row) => row.map(cell).join(',')).join('\r\n') + '\r\n';
+  const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+  const a = el('a', { href: url, download: `krillion_${new Date().toISOString().slice(0, 10)}.csv` });
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+// ---------------------------------------------------------------------------
 // Pagina
 
 let model = null;
@@ -1129,6 +1181,7 @@ function setStatus(key, vars) {
 }
 
 function bindControls() {
+  $('#download').addEventListener('click', () => model && downloadCsv(model));
   $('#lang').addEventListener('change', (e) => {
     state.lang = e.target.value;
     prefs.set('lang', state.lang);
